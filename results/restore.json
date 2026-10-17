@@ -1,0 +1,346 @@
+{
+  "status": "passed",
+  "verified_at_utc": "2026-10-17T04:16:29.294169+00:00",
+  "backup_bytes": 5229374,
+  "backup_file_mtime_utc": "2026-10-17T03:00:01.703626+00:00",
+  "restore_flags": [
+    "--no-owner",
+    "--no-acl",
+    "--single-transaction",
+    "--exit-on-error"
+  ],
+  "roles_and_acl_restored": false,
+  "external_document_files_restored": false,
+  "placeholder_role_count": 0,
+  "restore_command_seconds": 1.0961,
+  "postgresql_version": "18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)",
+  "sequence_set_objects": 0,
+  "verified_sequences": 0,
+  "sequence_values_match_archive": true,
+  "invalid_indexes": 0,
+  "unvalidated_constraints": 0,
+  "constraint_counts": {
+    "c": 99,
+    "f": 243,
+    "n": 510,
+    "p": 62,
+    "t": 3,
+    "u": 51
+  },
+  "database_bytes": 31430335,
+  "toc_table_data_objects": 62,
+  "verified_tables": 62,
+  "restored_rows": 32117,
+  "tables": [
+    {
+      "table": "admin.alembic_version",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "admin.operator_credentials",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "admin.operator_identities",
+      "rows": 3,
+      "matches_archive": true
+    },
+    {
+      "table": "admin.operators",
+      "rows": 4,
+      "matches_archive": true
+    },
+    {
+      "table": "audit.approvals",
+      "rows": 886,
+      "matches_archive": true
+    },
+    {
+      "table": "audit.audit_logs",
+      "rows": 1121,
+      "matches_archive": true
+    },
+    {
+      "table": "audit.device_care_changes",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.admin_mutation_requests",
+      "rows": 3,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.channel_links",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.inquiry_actions",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.link_attempts",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.outbound_messages",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.patient_inquiries",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.patient_notes",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "carebot.sr_data",
+      "rows": 3629,
+      "matches_archive": true
+    },
+    {
+      "table": "incare_app.conversation_messages",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "incare_app.patient_conversations",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "incare_app.patient_identities",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "incare_app.patient_link_attempts",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "master.frequent_hospitals",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "master.man_manager_list",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "master.manufacturers",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "master.product_catalog",
+      "rows": 2,
+      "matches_archive": true
+    },
+    {
+      "table": "master.vendors",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.assigned_history",
+      "rows": 99,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.billing_charge_items",
+      "rows": 7,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.billing_readiness_issues",
+      "rows": 441,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.care_history",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.claim_docs",
+      "rows": 964,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.claims",
+      "rows": 400,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.contracts",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.excel_import_sessions",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.import_batches",
+      "rows": 12,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.import_rows",
+      "rows": 715,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.job_artifacts",
+      "rows": 3641,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.job_items",
+      "rows": 12453,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.job_runs",
+      "rows": 236,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.mask_supply_records",
+      "rows": 86,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.ocr_sessions",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.patient_billing_calculations",
+      "rows": 54,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.patient_billing_statements",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.patient_documents",
+      "rows": 938,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.patient_monthly_billing_cycle_records",
+      "rows": 181,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.patient_monthly_billing_cycles",
+      "rows": 305,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.patients",
+      "rows": 97,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.prescriptions",
+      "rows": 368,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.product_instances",
+      "rows": 95,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.receipts",
+      "rows": 248,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.return_receipts",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.sleep_reports",
+      "rows": 570,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.system_logs",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.tax_invoices",
+      "rows": 251,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.travels",
+      "rows": 10,
+      "matches_archive": true
+    },
+    {
+      "table": "runtime.workflow_sessions",
+      "rows": 0,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.change_items",
+      "rows": 2692,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.change_operations",
+      "rows": 268,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.change_sets",
+      "rows": 27,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.document_artifacts",
+      "rows": 339,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.document_source_inventory",
+      "rows": 763,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.drive_change_cursors",
+      "rows": 1,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.drive_folder_inventory",
+      "rows": 202,
+      "matches_archive": true
+    },
+    {
+      "table": "staging.extracted_data",
+      "rows": 0,
+      "matches_archive": true
+    }
+  ]
+}

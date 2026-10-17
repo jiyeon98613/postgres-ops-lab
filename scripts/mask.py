@@ -87,7 +87,7 @@ def prepare(cluster):
     key = secrets.token_bytes(32)
     (cluster.root / "mask-key").write_bytes(key)
     with cluster.connect() as source:
-        source.execute("CREATE SCHEMA masked")
+        source.execute("CREATE SCHEMA pgops_masked")
         origin = source.execute("SELECT min(created_at) FROM staging.change_sets").fetchone()[0]
         if origin is None:
             raise ValueError("The backup has no change-set records for this query")
@@ -101,12 +101,12 @@ def prepare(cluster):
             if not columns or set(columns) - allowed:
                 raise ValueError("Schema differs from reviewed masking rules")
             identifiers = sql.SQL(", ").join(map(sql.Identifier, columns))
-            source.execute(sql.SQL("CREATE TABLE masked.{} (LIKE staging.{} INCLUDING ALL EXCLUDING INDEXES)")
+            source.execute(sql.SQL("CREATE TABLE pgops_masked.{} (LIKE staging.{} INCLUDING ALL EXCLUDING INDEXES)")
                            .format(sql.Identifier(table), sql.Identifier(table)))
             # Materialize only these two small tables. No rows or parameter values leave this process.
             rows = source.execute(sql.SQL("SELECT {} FROM staging.{}")
                                   .format(identifiers, sql.Identifier(table))).fetchall()
-            with source.cursor().copy(sql.SQL("COPY masked.{} ({}) FROM STDIN")
+            with source.cursor().copy(sql.SQL("COPY pgops_masked.{} ({}) FROM STDIN")
                                       .format(sql.Identifier(table), identifiers)) as copy:
                 for row in rows:
                     copy.write_row(tuple(masker.value(name, value) for name, value in zip(columns, row)))
@@ -115,7 +115,7 @@ def prepare(cluster):
             for (definition,) in indexes:
                 if f" ON staging.{table} " not in definition:
                     raise ValueError("Unexpected index definition")
-                source.execute(definition.replace(f" ON staging.{table} ", f" ON masked.{table} ", 1))
+                source.execute(definition.replace(f" ON staging.{table} ", f" ON pgops_masked.{table} ", 1))
             metadata[table] = {"rows": len(rows), "columns": len(columns), "indexes": len(indexes)}
         def profile(schema):
             return source.execute(sql.SQL("""SELECT count(*), count(DISTINCT i.business_key),
@@ -124,17 +124,17 @@ def prepare(cluster):
                 count(*) FILTER (WHERE s.change_type='PATIENT_DOCUMENT_DISCOVERY')
                 FROM {}.change_items i JOIN {}.change_sets s USING(change_set_id,vendor_id)""")
                 .format(sql.Identifier(schema), sql.Identifier(schema))).fetchone()
-        if profile("staging") != profile("masked"):
+        if profile("staging") != profile("pgops_masked"):
             raise ValueError("Masking changed query-key cardinality or join membership")
-        source.execute("ANALYZE masked.change_items")
-        source.execute("ANALYZE masked.change_sets")
-    archive = cluster.root / "masked.dump"
-    cluster.run("pg_dump", "-d", cluster.state["database"], "-Fc", "-n", "masked", "-f", archive)
+        source.execute("ANALYZE pgops_masked.change_items")
+        source.execute("ANALYZE pgops_masked.change_sets")
+    archive = cluster.root / "pgops_masked.dump"
+    cluster.run("pg_dump", "-d", cluster.state["database"], "-Fc", "-n", "pgops_masked", "-f", archive)
     cluster.create_database("query_check")
     cluster.run("pg_restore", "--no-owner", "--no-acl", "--exit-on-error", "--single-transaction",
                 "-d", "query_check", archive, database="query_check")
     with cluster.connect("query_check") as target:
-        target.execute("ALTER SCHEMA masked RENAME TO staging")
+        target.execute("ALTER SCHEMA pgops_masked RENAME TO staging")
         target.execute("CREATE EXTENSION pg_stat_statements")
         target.execute("ANALYZE")
     report = {"tables": metadata, "row_counts_preserved": True,

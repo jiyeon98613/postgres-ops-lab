@@ -1,0 +1,23 @@
+{
+  "run_at_utc": "2026-10-17T04:30:53.908295+00:00",
+  "phase": "Cluster in healthy state",
+  "current_primary": "pgops-2",
+  "ready_instances": 3,
+  "instances": [
+    {
+      "pod": "pgops-1",
+      "in_recovery": true,
+      "rows": 102
+    },
+    {
+      "pod": "pgops-2",
+      "in_recovery": false,
+      "rows": 102
+    },
+    {
+      "pod": "pgops-3",
+      "in_recovery": true,
+      "rows": 102
+    }
+  ]
+}

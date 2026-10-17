@@ -1,0 +1,124 @@
+{
+  "status": "passed",
+  "scope": "isolated query database; does not assert production privileges",
+  "authentication": "SCRAM over a private Unix socket",
+  "checks": [
+    {
+      "role": "lab_readonly",
+      "check": "read_history",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_readonly",
+      "check": "read_future_table",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_readonly",
+      "check": "insert_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_readonly",
+      "check": "update_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_readonly",
+      "check": "delete_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_readonly",
+      "check": "drop_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "read_history",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "insert_allowed",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "update_allowed",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "delete_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "ddl_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "drop_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_application",
+      "check": "escalation_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_owner",
+      "check": "ddl_allowed",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_owner",
+      "check": "delete_allowed",
+      "expected_sqlstate": null,
+      "observed_sqlstate": null,
+      "passed": true
+    },
+    {
+      "role": "lab_owner",
+      "check": "role_creation_denied",
+      "expected_sqlstate": "42501",
+      "observed_sqlstate": "42501",
+      "passed": true
+    },
+    {
+      "role": "lab_readonly",
+      "check": "wrong_password_denied",
+      "passed": true
+    }
+  ]
+}

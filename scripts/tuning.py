@@ -68,18 +68,18 @@ def cases(conn):
     return result
 
 
-def benchmark(cluster, conn, case_name, query, phase, round_number, args):
+def benchmark(cluster, conn, database, case_name, query, phase, round_number, args):
     for _ in range(3):
         conn.execute(query).fetchall()
     conn.execute("SELECT pg_stat_statements_reset()")
     conn.commit()
-    workload = cluster.root / "workload.sql"
+    workload = cluster.root / f"workload-{args.data_mode}.sql"
     workload.write_text(query + ";\n")
-    output = cluster.root / f"pgbench-{case_name}-{phase}-{round_number}.log"
+    output = cluster.root / f"pgbench-{args.data_mode}-{case_name}-{phase}-{round_number}.log"
     with output.open("wb") as log:
         result = subprocess.run([str(cluster.pg_bin / "pgbench"), "-n", "-c", str(args.clients),
-            "-j", str(min(args.clients, 2)), "-t", str(args.transactions), "-f", str(workload), "query_check"],
-            env=cluster.env("query_check"), stdout=log, stderr=log)
+            "-j", str(min(args.clients, 2)), "-t", str(args.transactions), "-f", str(workload), database],
+            env=cluster.env(database), stdout=log, stderr=log)
     if result.returncode:
         raise RuntimeError("pgbench failed; details remain private")
     columns = ["calls", "rows", "mean_exec_time", "min_exec_time", "max_exec_time", "stddev_exec_time",
@@ -98,8 +98,22 @@ def tune(args):
     os.umask(0o077)
     root = private_root(args.workspace)
     with Cluster(root, executable_dir(args.pg_bin)) as cluster:
-        masking = prepare(cluster)
-        with cluster.connect("query_check", autocommit=True) as conn:
+        if args.data_mode == "masked":
+            masking = prepare(cluster)
+            database = "query_check"
+        else:
+            baseline = json.loads((root / "restore-result.json").read_text())
+            if baseline["status"] != "passed":
+                raise ValueError("Restore validation must pass first")
+            database = "unmodified_query_check"
+            cluster.create_database(database)
+            cluster.run("pg_restore", "--no-owner", "--no-acl", "--exit-on-error", "--single-transaction",
+                        "-d", database, root / "source.dump", database=database)
+            with cluster.connect(database) as target:
+                target.execute("CREATE EXTENSION pg_stat_statements")
+                target.execute("ANALYZE")
+            masking = None
+        with cluster.connect(database, autocommit=True) as conn:
             conn.prepare_threshold = None
             definition = conn.execute("SELECT pg_get_indexdef(indexrelid), indisunique "
                 "FROM pg_index WHERE indexrelid=to_regclass(%s)", (f"staging.{INDEX}",)).fetchone()
@@ -123,7 +137,7 @@ def tune(args):
                             canonical = lambda rows: sorted(json.dumps(row, default=str, sort_keys=True) for row in rows)
                             if canonical(current) != canonical(references[name]):
                                 raise RuntimeError("Query results changed between index conditions")
-                            measurements.append(benchmark(cluster, conn, name, query, phase, round_number, args))
+                            measurements.append(benchmark(cluster, conn, database, name, query, phase, round_number, args))
             finally:
                 if not has_index:
                     conn.execute(definition[0])
@@ -137,12 +151,12 @@ def tune(args):
                 "candidate_index": INDEX, "index_preexisted_in_backup": True,
                 "selection": "application query predicates and existing index; not production slow-query ranking",
                 "clients": args.clients, "transactions_per_client": args.transactions, "rounds": args.rounds,
-                "same_result_multiset": True, "masking": masking, "summaries": summaries,
+                "same_result_multiset": True, "data_mode": args.data_mode, "masking": masking, "summaries": summaries,
                 "measurements": measurements, "production_performance_improvement_claimed": False,
                 "limitations": ["warm-cache comparison; no OS cache flush", "local isolated PostgreSQL",
-                    "pseudonymized payload can change row size and compression", "index write overhead not measured",
+                    "restoration rebuilds physical storage; masking additionally changes payload sizes when enabled", "index write overhead not measured",
                     "most frequent historical keys; live request distribution is not established"]}
-            save_json(root / "tuning-result.json", report)
+            save_json(root / ("tuning-result.json" if args.data_mode == "masked" else "tuning-unmodified-result.json"), report)
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
@@ -150,6 +164,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workspace", required=True)
     parser.add_argument("--pg-bin")
+    parser.add_argument("--data-mode", choices=("masked", "unmodified"), default="masked",
+                        help="Unmodified mode keeps all original values only in the private server workspace")
     parser.add_argument("--clients", type=int, default=2)
     parser.add_argument("--transactions", type=int, default=100)
     parser.add_argument("--rounds", type=int, default=4)

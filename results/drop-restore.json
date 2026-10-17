@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "table_drop_confirmed": true,
+  "dropped_table": "staging.change_items",
+  "rows_before_drop": 2692,
+  "rows_after_restore": 2692,
+  "verified_tables": 62,
+  "all_tables_match_archive": true,
+  "sequence_values_match_archive": true,
+  "restore_command_seconds": 0.9674,
+  "recovery_point": "snapshot in the completed logical backup",
+  "pitr": false,
+  "production_database_modified": false,
+  "application_restart_and_cutover_tested": false
+}

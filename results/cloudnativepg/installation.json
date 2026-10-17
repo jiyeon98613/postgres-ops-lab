@@ -1,0 +1,12 @@
+{
+  "run_at_utc": "2026-10-17T04:28:51.648751+00:00",
+  "kind": "0.30.0",
+  "kubernetes": "1.34.0",
+  "cnpg": "1.28.4",
+  "postgres_image": "ghcr.io/cloudnative-pg/postgresql:18.6",
+  "instances": 3,
+  "operator_manifest_url": "https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.28/releases/cnpg-1.28.4.yaml",
+  "operator_manifest_sha256": "8f24b9163df8ff771fc398de885e6c4052f31a1289f921f9d23024eff5e8ebbe",
+  "single_kubernetes_node": true,
+  "single_physical_host": true
+}

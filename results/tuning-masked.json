@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "measured_at_utc": "2026-10-17T04:18:27.168089+00:00",
+  "clients": 2,
+  "transactions_per_client": 100,
+  "rounds": 4,
+  "masking": {
+    "tables": {
+      "change_sets": {
+        "rows": 27,
+        "columns": 23,
+        "indexes": 5
+      },
+      "change_items": {
+        "rows": 2692,
+        "columns": 23,
+        "indexes": 6
+      }
+    },
+    "row_counts_preserved": true,
+    "foreign_keys_to_other_tables_copied": false,
+    "rls_policies_copied": false,
+    "timestamps_shifted_by_constant": true,
+    "payload_values_replaced": true,
+    "row_width_and_compression_identical": false,
+    "data_exported_to_public_repository": false
+  },
+  "summaries": [
+    {
+      "case": "vendor_1_keys_1",
+      "returned_rows": 5,
+      "median_mean_exec_ms": {
+        "with_index": 0.11637867999999998,
+        "without_index": 0.5927404124999998
+      },
+      "without_divided_by_with": 5.093204464082252
+    },
+    {
+      "case": "vendor_1_keys_10",
+      "returned_rows": 41,
+      "median_mean_exec_ms": {
+        "with_index": 0.500123185,
+        "without_index": 1.0885547
+      },
+      "without_divided_by_with": 2.1765731576711445
+    },
+    {
+      "case": "vendor_1_keys_100",
+      "returned_rows": 247,
+      "median_mean_exec_ms": {
+        "with_index": 2.3139366649999995,
+        "without_index": 2.8772527175
+      },
+      "without_divided_by_with": 1.243444888108033
+    }
+  ],
+  "same_result_multiset": true
+}

@@ -1,0 +1,53 @@
+{
+  "run_at_utc": "2026-10-17T04:30:37.184658+00:00",
+  "failure_injection": "force deletion of primary Pod",
+  "old_primary": "pgops-1",
+  "new_primary": "pgops-2",
+  "injection_until_new_primary_write_seconds": 4.0,
+  "probes": [
+    {
+      "elapsed_seconds": 0.518,
+      "write_succeeded": true,
+      "primary": "pgops-1",
+      "phase": "Failing over"
+    },
+    {
+      "elapsed_seconds": 1.704,
+      "write_succeeded": false,
+      "primary": "pgops-1",
+      "phase": "Failing over"
+    },
+    {
+      "elapsed_seconds": 2.345,
+      "write_succeeded": false,
+      "primary": "pgops-1",
+      "phase": "Failing over"
+    },
+    {
+      "elapsed_seconds": 3.084,
+      "write_succeeded": false,
+      "primary": "pgops-1",
+      "phase": "Failing over"
+    },
+    {
+      "elapsed_seconds": 4.0,
+      "write_succeeded": true,
+      "primary": "pgops-2",
+      "phase": "Failing over"
+    }
+  ],
+  "seed_rows_preserved": 100,
+  "acknowledged_probe_writes": 2,
+  "missing_acknowledged_keys": [],
+  "rows_after_failover": 102,
+  "unacknowledged_but_present_probe_rows": 0,
+  "rw_service_ready_targets": [
+    "pgops-2"
+  ],
+  "limitations": [
+    "single kind node on one host",
+    "Pod deletion; not host loss or network partition",
+    "short sampled client probe; not a production RTO/SLA",
+    "asynchronous replication; this run does not guarantee zero data loss"
+  ]
+}

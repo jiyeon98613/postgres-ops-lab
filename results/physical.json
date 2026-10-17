@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "verified_at_utc": "2026-10-17T04:23:12.622933+00:00",
+  "scope": "isolated copies on one host; production configuration unchanged",
+  "replication": {
+    "new_rows_while_stopped": 1000,
+    "marker_rows_after_restart": 1001,
+    "wal_gap_bytes": 154256,
+    "restart_to_target_lsn_seconds": 0.1432,
+    "verified_application_tables": 62,
+    "all_application_tables_match_backup": true,
+    "transport": "Unix socket; asynchronous streaming replication"
+  },
+  "pitr": {
+    "target_time_utc": "2026-10-17T04:23:17.053583+00:00",
+    "table_drop_confirmed": true,
+    "dropped_table_restored": true,
+    "post_base_backup_row_recovered": true,
+    "post_target_row_excluded": true,
+    "marker_rows_at_target": 1002,
+    "verified_application_tables": 62,
+    "all_application_tables_match_backup": true,
+    "startup_to_target_pause_seconds": 0.8506,
+    "write_after_promotion_succeeded": true,
+    "archived_segments": 7,
+    "archive_failures": 0
+  }
+}

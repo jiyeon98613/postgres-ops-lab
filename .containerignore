@@ -1,3 +1,9 @@
 .git
 __pycache__
 *.pyc
+.env
+*.dump
+*.backup
+*.pgpass
+*.key
+.venv

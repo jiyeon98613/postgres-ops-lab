@@ -1,0 +1,16 @@
+{
+  "checked_at_utc": "2026-10-17T04:16:04.424597+00:00",
+  "deployed_commit": "03cc10191a371aad43da7a9c775359f28adf4f86",
+  "query_source_modified": false,
+  "query_ast_sha256": "e9ea7ca409ddb40d615b18ed7000d791048575b9782071e6abee5e664482920f",
+  "counts": {
+    "staging.change_items": 2692,
+    "staging.change_sets": 27,
+    "carebot.sr_data": 3629,
+    "runtime.patients": 97
+  },
+  "candidate_index_definition": "CREATE INDEX ix_change_items_vendor_business_created ON staging.change_items USING btree (vendor_id, business_key, created_at)",
+  "sampled_index_counters_all_zero": true,
+  "source_pg_stat_statements_installed": false,
+  "production_archive_mode": "off"
+}
